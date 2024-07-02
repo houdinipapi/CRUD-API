@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 // Mock Database
-const users = [
+let users = [
     {
         first_name: "John",
         last_name: "Doe",
@@ -30,6 +30,21 @@ router.post("/", (req, res) => {
 
     users.push({...user, id: uuidv4() });
     res.send(`User with the name ${user.first_name} added to the database successfully!`);
+});
+
+router.get("/:id", (req, res) => {
+    const { id } = req.params;
+
+    const foundUser = users.find((user) => user.id === id)
+    res.send(foundUser)
+});
+
+router.delete("/:id", (req, res) => {
+    const { id } = req.params;
+
+    users = users.filter((user) => user.id !== id)
+
+    res.send(`${id} deleted successfully from database`);
 });
 
 export default router;
